@@ -1,0 +1,217 @@
+    <!DOCTYPE html>
+<!-- Notes
+blue color used for the buttons and the navigation bar: #3887be
+-->
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Climate Change</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script src="../static/mapVisual.js"></script> -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="style.css">
+<!-- CSS information for the map --> 
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0px; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+ 
+    <div id = "map"></div>
+    <div id='question'></div>
+</body>
+</html>
+
+    <script type="text/javascript">
+    //display the map
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmJydW5zIiwiYSI6ImNqajV3MG51bjI0MWkzcG1tZXZycjdyZWcifQ.-X9WJp4KZ6VEGrkDQI3A_w';
+var map = new mapboxgl.Map(
+{
+container: 'map', // container id
+style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+center: [103.8198, 1.3521], // starting position [lng, lat]
+zoom: 9// starting zoom
+});
+
+
+var geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    
+                    
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.8198, 1.3521]
+                    },
+                        "properties":
+                    {
+                        "title": "Company Selling Vertical Farming Technology",
+                        "description": "Invest in the new Technology", 
+                        "id": 'nextQuestion()',
+                        "question": '0'
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.71, 1.43]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Farm",
+                        "description": "Don't invest in the new Technology", 
+                        "id": 'nextQuestion2()',
+                        "question": '0'
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.75, 1.41]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Doctor",
+                        "description": "Go to the Doctor to get checked out", 
+                        "id": 'nextQuestion()',
+                        "question": '1'
+                    }
+                },
+                 {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.71, 1.43]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Farm",
+                        "description": "Keep Working. It's crunch time.", 
+                        "id": 'nextQuestion2()',
+                        "question": '1'
+                    }
+                },
+
+                   {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[104, 1.7]
+                    },
+                        "properties":
+                    {
+                        "title": "Where the worker came from",
+                        "description": "Take a chance and hire him", 
+                        "id": 'nextQuestion2()',
+                        "question": '2'
+                    }
+                },
+                  {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.71, 1.43]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Farm",
+                        "description": "Don't hire him", 
+                        "id": 'nextQuestion2()',
+                        "question": '2'
+                    }
+                },
+                     {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.71, 1.43]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Farm",
+                        "description": "", 
+                        "id": 'nextQuestion()',
+                        "question": '3'
+                    }
+                },
+
+                ]};
+        
+
+
+var questionsArray1 = [
+        "You are considering investing in new farming technology. A company wants to sell you rigs that let you farm vertically, maximizing the space you have on this small plot of land. Do you invest? ",
+        "You are working outside in the heat.  There’s been a drought lately and you’re checking up to make sure your fruits have gotten enough water. You’re not as young as you once were, and start to feel a little sick.", 
+        "You’re considering hiring a new employee for your farm. He is originally from Malaysia, and it’s kind of hard to understand what he’s saying. You could use another employee, but you don’t know much about this guy.", 
+        "Heavier than normal rains have hit your farm. Your crops are negatively impacted."]
+var questionIndex = 0; 
+var markerArray = [];  
+
+function nextQuestion(){
+    questionIndex +=1; 
+    console.log("nextQuestion function"); 
+    document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+    addMarkers(questionIndex);
+}
+
+function nextQuestion2(){
+    questionIndex +=1;
+    console.log("nextQuestion2 function")
+    document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+    addMarkers(questionIndex); 
+}
+
+function addMarkers(questionIndex){
+    console.log("question index is", questionIndex);
+    geojson.features.forEach(function(marker) {
+        
+        var markerQuestion = marker.properties.question;  
+
+      
+
+        //if your marker is associated with our current question, make it pop up
+        if(questionIndex == markerQuestion){
+
+            console.log("makeing new marker"); 
+            console.log("markerquestion is", markerQuestion);
+            var functionName = marker.properties.id;
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker';
+
+            // make a marker for each feature and add to the map
+            var newMarker = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'+ '<button class = \''+ questionIndex + '\'onClick='+functionName+'>'+ 'Select'+'</button>'))
+            .addTo(map);
+
+            markerArray.push(newMarker);
+        }
+        
+        else if(markerQuestion < questionIndex){ //can't make a marker that doesn't exist disappear
+            //remove all old markers
+            console.log("removing marker"); 
+            $( ".marker" ).remove();
+        }
+    });
+}
+
+addMarkers(questionIndex);
+document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+
+</script>

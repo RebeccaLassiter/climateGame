@@ -1,0 +1,202 @@
+    <!DOCTYPE html>
+<!-- Notes
+blue color used for the buttons and the navigation bar: #3887be
+-->
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Climate Change</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script src="../static/mapVisual.js"></script> -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="style.css">
+<!-- CSS information for the map --> 
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0px; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+ 
+    <div id = "map"></div>
+    <div id='question'></div>
+</body>
+</html>
+
+    <script type="text/javascript">
+    //display the map
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmJydW5zIiwiYSI6ImNqajV3MG51bjI0MWkzcG1tZXZycjdyZWcifQ.-X9WJp4KZ6VEGrkDQI3A_w';
+var map = new mapboxgl.Map(
+{
+container: 'map', // container id
+style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+center: [103.8198, 1.3521], // starting position [lng, lat]
+zoom: 9// starting zoom
+});
+
+
+var geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    
+                    
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[104, 1.35]
+                    },
+                        "properties": 
+                    {
+                        "title": "Shipyards",
+                        "description": "Apply to work at the shipyards", 
+                        "id": 'nextQuestion()',
+                        "question": '0'
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.847, 1.34]
+                    },
+                        "properties":
+                    {
+                        "title": "Domestic Help",
+                        "description": "Work for a family as a cook and housekeeper.", 
+                        "id": 'nextQuestion2()',
+                        "question": '0'
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.88, 1.4]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Apartment",
+                        "description": "Clean up the mess and be late to work.", 
+                        "id": 'nextQuestion()',
+                        "question": '1'
+                    }
+                },
+                 {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[104, 1.35]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Work",
+                        "description": "Go to work and assess the flood-damage later", 
+                        "id": 'nextQuestion2()',
+                        "question": '1'
+                    }
+                },
+
+                   {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.88, 1.4]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Apartment",
+                        "description": "Invite him over for dinner", 
+                        "id": 'nextQuestion()',
+                        "question": '2'
+                    }
+                },
+                  {
+                    "type": "Feature",
+                    "geometry": 
+                    {
+                        "type": "Point",
+                        "coordinates":[103.88, 1.42]
+                    },
+                        "properties":
+                    {
+                        "title": "Your Apartment",
+                        "description": "Act friendly, but distant. You don't have time for a new friendship.", 
+                        "id": 'nextQuestion2()',
+                        "question": '2'
+                    }
+                },
+
+                ]};
+        
+
+
+var questionsArray1 = [
+        "You just moved to Singapore and you are looking for work.",
+        "Heavy rains come and your apartment floods.",  
+        "You come back from work, and mosquitos have already laid eggs in the standing water. You are afraid of catching an illness from them.",
+        "You meet a new nextdoor neighbor and realize he is also an immigrant, though he is from India"]
+var questionIndex = 0; 
+var markerArray = [];  
+
+function nextQuestion(){
+    questionIndex +=1; 
+    console.log("nextQuestion function"); 
+    document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+    addMarkers(questionIndex);
+}
+
+function nextQuestion2(){
+    questionIndex +=1;
+    console.log("nextQuestion2 function")
+    document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+    addMarkers(questionIndex); 
+}
+
+function addMarkers(questionIndex){
+    console.log("question index is", questionIndex);
+    geojson.features.forEach(function(marker) {
+        
+        var markerQuestion = marker.properties.question;  
+
+      
+
+        //if your marker is associated with our current question, make it pop up
+        if(questionIndex == markerQuestion){
+
+            console.log("makeing new marker"); 
+            console.log("markerquestion is", markerQuestion);
+            var functionName = marker.properties.id;
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker';
+
+            // make a marker for each feature and add to the map
+            var newMarker = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'+ '<button class = \''+ questionIndex + '\'onClick='+functionName+'>'+ 'Select'+'</button>'))
+            .addTo(map);
+
+            markerArray.push(newMarker);
+        }
+        
+        else if(markerQuestion < questionIndex){ //can't make a marker that doesn't exist disappear
+            //remove all old markers
+            console.log("removing marker"); 
+            $( ".marker" ).remove();
+        }
+    });
+}
+
+addMarkers(questionIndex);
+document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+
+</script>
