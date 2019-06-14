@@ -22,6 +22,27 @@ blue color used for the buttons and the navigation bar: #3887be
  
     <div id = "map"></div>
     <div id='question'></div>
+
+
+    <div class = "bar1">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="health"></div> 
+        </div>
+        <div class = "title"> Health </div>
+    </div>
+    <div class = "bar2">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="relationships"></div> 
+        </div>
+        <div class = "title"> Relationships </div>
+    </div>
+    <div class = "bar3">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="money" ></div> 
+        </div>
+        <div class = "title"> Money </div>
+    </div>
+    
 </body>
 </html>
 
@@ -172,11 +193,30 @@ var questionsArray1 = [
         "The government warns you that your house is in a flood-prone area and they anticpate a higher-than-average flood season.",
         "One of your co-workers was diagnosed with Dengue fever. You’ve heard there are more and more cases of it on the news.", 
         "Your grocery bill is quite a lot more expensive than it usually is.", 
-        "Less foreign countries are using Singapore as a shipping hub. Even though your company doesn’t directly work in shipping, this has impacted the economy throughout the country"]
+        "Less foreign countries are using Singapore as a shipping hub. Even though your company doesn’t directly work in shipping, this has impacted the economy throughout the country", 
+        "Finished! Go back to play as a different character."]
 var questionIndex = 0; 
 var markerArray = [];  
 
+if(questionIndex ==0){
+    console.log("first bar creation");
+    update_bars("health", 80);
+    update_bars("relationships", 80);
+    update_bars("money", 80);
+} 
+
 function nextQuestion(){
+    if(questionIndex ==0){
+    }
+    else if(questionIndex ==1){
+        update_bars("relationships", 100); 
+    }
+    else if(questionIndex ==2){
+        update_bars("money", 50);
+    }
+    else if(questionIndex ==3){
+        update_bars("relationships", 50); 
+    }
     questionIndex +=1; 
     console.log("nextQuestion function"); 
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
@@ -184,12 +224,28 @@ function nextQuestion(){
 }
 
 function nextQuestion2(){
+     if(questionIndex ==0){
+        update_bars("money", 60);
+    }
+    else if(questionIndex ==1){
+    }
+    else if(questionIndex ==2){
+        update_bars("health", 60);
+    }
+    else if(questionIndex ==3){
+        update_bars("money", 50); 
+    }
     questionIndex +=1;
     console.log("nextQuestion2 function")
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
     addMarkers(questionIndex); 
 }
 
+function update_bars(id, width) { 
+    console.log("updating bars");
+    var element = document.getElementById(id);    
+    element.style.width = width + '%';   
+}
 function addMarkers(questionIndex){
     console.log("question index is", questionIndex);
     geojson.features.forEach(function(marker) {

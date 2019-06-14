@@ -30,3 +30,66 @@ border-radius: 3px;
 padding: 10px;
 margin-bottom: 10px;
 }
+
+
+.bar1{
+	position: absolute;
+	bottom:0px;
+	right: 50px; 
+	margin-right: 50px;
+	margin-bottom:50px;
+	width:25%;
+}
+
+.bar2{
+	position: absolute;
+	bottom:50px;
+	right: 50px; 
+	margin-right: 50px;
+	margin-bottom:50px;
+	width:25%;
+}
+
+.bar3{
+	position: absolute;
+	bottom:100px;
+	right: 50px; 
+	margin-right: 50px;
+	margin-bottom:50px;
+	width:25%;
+}
+.title{
+	float:left;
+	margin-bottom: 50px; 
+		background-color: #fff
+}
+.Progress_Status { 
+  width:70%; 
+  background-color: #ddd; 
+  position: absolute;
+  right: 10px;
+  float: right;
+  
+} 
+  
+.myprogressBar { 
+ /* width: 1%;*/ 
+  height: 35px; 
+  background-color: #4CAF50; 
+  text-align: center; 
+  line-height: 32px; 
+  color: black; 
+  
+}
+
+/*#health{
+  position: absolute;
+  bottom: 50px;
+}
+#relationships{
+	bottom: 100px;
+}
+
+#money{
+	bottom: 150px;
+}*/

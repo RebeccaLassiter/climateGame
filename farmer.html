@@ -22,6 +22,26 @@ blue color used for the buttons and the navigation bar: #3887be
  
     <div id = "map"></div>
     <div id='question'></div>
+
+    <div class = "bar1">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="health"></div> 
+        </div>
+        <div class = "title"> Health </div>
+    </div>
+    <div class = "bar2">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="relationships"></div> 
+        </div>
+        <div class = "title"> Relationships </div>
+    </div>
+    <div class = "bar3">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="money" ></div> 
+        </div>
+        <div class = "title"> Money </div>
+    </div>
+    
 </body>
 </html>
 
@@ -114,7 +134,7 @@ var geojson = {
                     {
                         "title": "Where the worker came from",
                         "description": "Take a chance and hire him", 
-                        "id": 'nextQuestion2()',
+                        "id": 'nextQuestion()',
                         "question": '2'
                     }
                 },
@@ -157,25 +177,63 @@ var questionsArray1 = [
         "You are considering investing in new farming technology. A company wants to sell you rigs that let you farm vertically, maximizing the space you have on this small plot of land. Do you invest? ",
         "You are working outside in the heat.  There’s been a drought lately and you’re checking up to make sure your fruits have gotten enough water. You’re not as young as you once were, and start to feel a little sick.", 
         "You’re considering hiring a new employee for your farm. He is originally from Malaysia, and it’s kind of hard to understand what he’s saying. You could use another employee, but you don’t know much about this guy.", 
-        "Heavier than normal rains have hit your farm. Your crops are negatively impacted."]
+        "Heavier than normal rains have hit your farm. Your crops are negatively impacted.", 
+        "Finished! Go back to play as a different character."]
 var questionIndex = 0; 
-var markerArray = [];  
+var markerArray = []; 
+
+if(questionIndex ==0){
+    console.log("first bar creation");
+    update_bars("health", 80);
+    update_bars("relationships", 80);
+    update_bars("money", 80);
+} 
 
 function nextQuestion(){
-    questionIndex +=1; 
+  
+     if (questionIndex ==0){
+        console.log('moneybar update');
+        update_bars("money", 50);
+    }
+    else if(questionIndex ==1){
+      update_bars("health", 100); 
+    } 
+
+    else if(questionIndex ==2){
+      update_bars("relationships", 100)
+    }
+     else if(questionIndex ==3){
+      update_bars("money", 40)
+    }
+    questionIndex +=1;
     console.log("nextQuestion function"); 
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
     addMarkers(questionIndex);
 }
 
 function nextQuestion2(){
+    if (questionIndex ==1){
+        console.log("heath bar update");
+        update_bars("health", 60);
+    }
+     else if(questionIndex ==3){
+      update_bars("money", 40);
+    }
+
     questionIndex +=1;
-    console.log("nextQuestion2 function")
+    console.log("nextQuestion2 function");
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
     addMarkers(questionIndex); 
 }
 
+function update_bars(id, width) { 
+    console.log("updating bars");
+    var element = document.getElementById(id);    
+    element.style.width = width + '%';   
+}
+
 function addMarkers(questionIndex){
+
     console.log("question index is", questionIndex);
     geojson.features.forEach(function(marker) {
         
@@ -213,5 +271,7 @@ function addMarkers(questionIndex){
 
 addMarkers(questionIndex);
 document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
+
+
 
 </script>

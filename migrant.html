@@ -22,6 +22,27 @@ blue color used for the buttons and the navigation bar: #3887be
  
     <div id = "map"></div>
     <div id='question'></div>
+
+
+    <div class = "bar1">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="health"></div> 
+        </div>
+        <div class = "title"> Health </div>
+    </div>
+    <div class = "bar2">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="relationships"></div> 
+        </div>
+        <div class = "title"> Relationships </div>
+    </div>
+    <div class = "bar3">
+        <div class="Progress_Status" > 
+            <div class="myprogressBar" id="money" ></div> 
+        </div>
+        <div class = "title"> Money </div>
+    </div>
+    
 </body>
 </html>
 
@@ -142,11 +163,28 @@ var questionsArray1 = [
         "You just moved to Singapore and you are looking for work.",
         "Heavy rains come and your apartment floods.",  
         "You come back from work, and mosquitos have already laid eggs in the standing water. You are afraid of catching an illness from them.",
-        "You meet a new nextdoor neighbor and realize he is also an immigrant, though he is from India"]
+        "You meet a new nextdoor neighbor and realize he is also an immigrant, though he is from India", 
+        "Finished! Go back to play as a different character."]
 var questionIndex = 0; 
 var markerArray = [];  
 
+if(questionIndex ==0){
+    console.log("first bar creation");
+    update_bars("health", 80);
+    update_bars("relationships", 80);
+    update_bars("money", 80);
+} 
+
 function nextQuestion(){
+    if(questionIndex ==0){
+    }
+    else if(questionIndex ==1){
+        update_bars("money", 70); 
+    }
+    else if(questionIndex ==2){
+        update_bars("relationships", 100);
+    }
+
     questionIndex +=1; 
     console.log("nextQuestion function"); 
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
@@ -154,10 +192,25 @@ function nextQuestion(){
 }
 
 function nextQuestion2(){
+       if(questionIndex ==0){
+    }
+    else if(questionIndex ==1){
+        update_bars("health", 70); 
+    }
+    else if(questionIndex ==2){
+        update_bars("relationships", 100);
+    }
+  
     questionIndex +=1;
     console.log("nextQuestion2 function")
     document.getElementById("question").innerHTML = questionsArray1[questionIndex]; 
     addMarkers(questionIndex); 
+}
+
+function update_bars(id, width) { 
+    console.log("updating bars");
+    var element = document.getElementById(id);    
+    element.style.width = width + '%';   
 }
 
 function addMarkers(questionIndex){
